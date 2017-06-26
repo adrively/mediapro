@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mediapro User Manager</title>
+    <!--CSS style materialize-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="api/css/style.css">
+    <!--Import needed scripts-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+    <script src="api/js/elements.js" defer></script>
+    <script src="bower_components/angular/angular.min.js" defer></script>
+    <!--My app JS-->
+    <script type="text/javascript" src="api/js/app.js" defer></script>
+  </head>
+
+  <body ng-app="myApp" ng-controller="myController">
+      <nav>
+        <div class="nav-wrapper">
+          <img class="brand-logo responsive-img" id="logo" src="http://www.automatic.tv/wp-content/uploads/2016/04/logo-header-black.png"></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li style="margin-right: 40px;"><p style="margin-top:-2px; font-size: 20px">Order By: </p></li>
+            <li style="margin-right: 120px">
+              <select ng-model="order" ng-change="selectToast()">
+                <option value="name">Name</option>
+                <option value="created_date">Created Date</option>
+                <option value="updated_date">Updated Date</option>
+              </select>
+            </li>
+
+            <li>
+              <div class="input-field" id="search" style="margin-right: 100px">
+                <i class="material-icons prefix" id="searchIcon">search</i>
+                <input id="name" type="text" class="validate" ng-model="searchText" style="border-bottom: 1px solid #FFB6B6; padding:2px;" placeholder="Filter">
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Modal Trigger -->
+      <div class="modal-trigger fixed-action-btn" style="bottom: 45px; right: 20%;">
+        <a href="#modal1" ng-click="form={}; setForm2();" class="tooltipped btn-floating btn-large waves-effect waves-light" data-position="right" data-delay="50" data-tooltip="Add a User !"><i class="material-icons">add</i></a>
+      </div>
+      <!-- Modal Structure -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>{{title}}</h4>
+          <i class="material-icons medium" style="position:absolute;right:2%;top:2%; color:#FA7676;">perm_identity</i>
+          
+          <div class="row">
+            <form name="userForm" id="userForm" class="col s12" ng-submit="submitForm()">
+              <div class="col s6">
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="name" type="text" class="validate" ng-model="user.name" ng-value="form.name" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="name">Name</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="surnames" type="text" class="validate" ng-model="user.surnames" ng-value="form.surnames" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="surnames">Surnames</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input id="email" type="email" class="validate" ng-model="user.email" ng-value="form.email" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="email">Email</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="phone" type="tel" class="validate" ng-model="user.phone" ng-value="form.phone" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="phone">Phone Number</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">location_on </i>
+                    <input id="address" type="text" class="validate" ng-model="user.address" ng-value="form.address" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="address">Address</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col s6">
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">assignment</i>
+                    <select id="selectModal" ng-model="user.type_document" ng-value="form.type_document" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                      <option value="DNI"  ng-selected="form.type_document == DNI">DNI</option>
+                      <option value="NIE"  ng-selected="form.type_document == NIE">NIE</option>
+                      <option value="Passport"  ng-selected="form.type_document == Passport">Passport</option>
+                    </select>
+                    <label>Document Type</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">assignment_ind</i>
+                    <input id="dni" type="text" class="validate" ng-model="user.number_document" ng-value="form.number_document" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="dni">Document Number</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">perm_contact_calendar</i>
+                    <input id="created_date_date" type="date" class="datepicker" ng-model="user.created_date" ng-value="form.created_date" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="created_date">Created Date</label>
+                  </div>
+                </div>
+                <div class="row modal-form-row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">perm_contact_calendar</i>
+                    <input id="updated_date" type="date" class="datepicker" ng-model="user.updated_date" ng-value="form.updated_date" placeholder="{{value.active && !value.old ? placeholder : ''}}">
+                    <label for="updated_date">Updated Date</label>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button form="userForm" class="modal-action modal-close btn waves-effect waves-light" type="submit" name="action" style="margin-right:2%;margin-top:4%">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="container col s1" ng-init="showData()">
+        <div class="row">
+          <ul class="collection col s6 offset-s3" ng-repeat="u in users| orderBy : order | filter:searchText| pagination : currentPage*itemsPerPage | limitTo: itemsPerPage">
+            <li class="collection-item avatar">
+              <img src="https://pbs.twimg.com/profile_images/790918691168935936/Z1dGF-ef.jpg" alt="Profile Image" class="circle">
+              <p><span  class="title">Name:</span> {{u.name}}</p>
+              <p ><span  class="title">Email:</span> {{u.email}}</p>
+              <p><span  class="title">Phone:</span> {{u.phone}}</p>
+              <p><span  class="title">Doc.Number:</span> {{u.number_document}}</p>
+              <p><span class="title">Address:</span> {{u.address}}</p>
+              <a href="#!" ng-click="setForm1($index);" data-target="modal1" class="modal-trigger secondary-content"><i class="small material-icons icon-red">mode_edit</i></a>
+              <a href="#!" ng-click="deleteUserById($index)" class="secondary-content" style="margin-right:7%"><i class="small material-icons icon-red">delete</i></a>
+            </li>
+          </ul>
+      </div>
+
+      <div class="pagBar">
+        <ul id="pag" class="pagination">
+          <li class="waves-effect" ng-class="DisablePrevPage()">
+            <a href ng-click="prevPage()"><i class="material-icons">chevron_left</i></a>
+          </li>
+          <li class="waves-effect" ng-repeat="n in range()" ng-class="{'active': n == currentPage}" ng-click="setPage(n)">
+            <a href="#">{{n+1}}</a>
+          </li>
+          <li class="waves-effect" ng-class="DisableNextPage()">
+            <a href ng-click="nextPage()"><i class="material-icons">chevron_right</i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

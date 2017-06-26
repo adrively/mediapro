@@ -1,0 +1,27 @@
+{
+  "name": "SPA_Mediapro",
+  "authors": [
+    "adrively <adrianvr1995@yahoo.es>"
+  ],
+  "description": "Single Page App",
+  "main": "index.html",
+  "keywords": [
+    "frontend"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.9.10"
+  }
+}
